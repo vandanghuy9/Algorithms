@@ -9,6 +9,9 @@
 #include <bits/stdc++.h>
 #include <iostream>
 using namespace std;
+string combination[] = {"BCG", "BGC", "CBG", "CGB", "GCB", "GBC"};
+int sum = 0;
+int a[9];
 int a[] = {3, 1, 2, 5, 7};
 int n = 5, v;
 int row[8];
@@ -141,12 +144,39 @@ void MergeSort(int l, int r)
         Merge(l, m, r);
     }
 }
+int numOfMovement(string combination)
+{
+    int start = 0;
+    int end = 2;
+    int i = 0;
+    int combinationSum = 0;
+    while (end < 9)
+    {
+        if (combination[i] == 'B')
+        {
+            combinationSum += a[end];
+        }
+        else if (combination[i] == 'C')
+        {
+            combinationSum += a[start];
+        }
+        else if (combination[i] == 'G')
+        {
+            combinationSum += a[(end + start) / 2];
+        }
+        end = end + 3;
+        start = start + 3;
+        i++;
+    }
+
+    return (sum - combinationSum);
+}
+
 int main()
 {
     ios_base::sync_with_stdio(0);
     cin.tie(NULL);
     cout.tie(NULL);
-    MergeSort(0, n - 1);
-    print();
+
     return 0;
 }
