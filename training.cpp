@@ -84,7 +84,9 @@ int main(){
             switch (query)
             {
             case 1:{
-                if (error_Num != 0) {answer[index] = 0;}
+                if (error_Num != 0) {
+                    answer[index] = 0;
+                }
                 else{
                     answer[index] = 1;
                 }
