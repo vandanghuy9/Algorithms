@@ -1,45 +1,52 @@
+// tim so chuoi con co A<=sum<=B
 #include <bits/stringfwd.h>
 #include <bits/stdc++.h>
 #include <iostream>
 #include <string>
 using namespace std;
-int a[500000];
+int arr[500000];
 int n, A, B;
 int result;
+int sum;
 void input()
 {
     cin >> n >> A >> B;
     for (int i = 0; i < n; i++)
     {
-        cin >> a[i];
+        cin >> arr[i];
     }
 }
-void solve()
+
+void countSub(int k)
 {
-    for (int i = 0; i < n; i++)
+    for (int i = k; i < n; i++)
     {
-        int sum = 0;
-        for (int j = i; j < n; j++)
+        if (sum + arr[i] <= B && k < n)
         {
-            if (sum + a[j] >= A && sum + a[j] <= B)
+            sum += arr[i];
+            if (sum >= A)
             {
-                sum += a[j];
+                result++;
+                countSub(i + 1);
             }
-        }
-        if (sum <= B && sum >= A)
-        {
-            result++;
+            else
+            {
+                countSub(i + 1);
+            }
+            sum -= arr[i];
         }
     }
-    cout << result << endl;
 }
+
 int main()
 {
     ios_base::sync_with_stdio(0);
     cin.tie(NULL);
     cout.tie(NULL);
+    sum = 0;
     result = 0;
     input();
-    solve();
+    countSub(0);
+    cout << result << endl;
     return 0;
 }

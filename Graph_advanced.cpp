@@ -82,6 +82,7 @@ public:
     Graph getTranspose();
     bool kurasaju();
     int kruskal_disjointSet();
+    void prim();
 };
 
 Graph::Graph(int V, int E)
@@ -123,6 +124,19 @@ int Graph::kruskal_disjointSet()
     }
     return res;
 }
+void Graph::prim()
+{
+    int bestW[V];
+    int bestAdj[V];
+    priority_queue<int> Q;
+    for (int v = 0; v < V; v++)
+    {
+        bestW[v] = v;
+        bestAdj[v] = v;
+        Q.push(v);
+    }
+}
+
 int main()
 {
     Graph g(9, 14);
@@ -164,8 +178,10 @@ int main()
 
     g.addEdge(3, 4, 9);
     g.addEdge(4, 3, 9);
+
     g.addEdge(5, 4, 10);
     g.addEdge(4, 5, 10);
-    cout << g.kruskal_disjointSet() << endl;
+    cout << "Trong so cay khung nho nhat: " << g.kruskal_disjointSet() << endl;
     return 0;
+    // kip 3 12h
 }

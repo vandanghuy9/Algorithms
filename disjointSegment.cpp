@@ -1,47 +1,43 @@
-#include <stdio.h>
-#include <iterator>
-#include <map>
-#include <string.h>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <bits/stringfwd.h>
-#include <bits/stdc++.h>
-#include <iostream>
+#include<bits/stdc++.h>
+
 using namespace std;
+
+#define maxn 1000000
+
 int n;
-pair<int,int> segment[10000];
-bool compare(pair<int,int> a, pair<int,int>b){
+
+pair<int, int> a[maxn];
+
+// sort the segments by second element of pairs
+bool compare(pair<int, int> a, pair<int, int> b){
     return a.second < b.second;
 }
-int greedy(){
-    int res = 0;
-    int last = -1;
-    for (int i=0;i<n;i++){
-        if (segment[i].first > last ){
-            res ++;
-            last = segment[i].second;
+
+void input(){
+    cin >> n;
+    for (int i = 1; i <= n; i++)
+    {
+        /* code */
+        cin >> a[i].first >> a[i].second;
+    }
+}
+
+void solve(){
+    int result = 0;
+    int last = -1; //the end point of last segments
+
+    sort(a + 1, a + n + 1, compare);
+    for(int i = 1; i <= n; i++){
+        if(a[i].first > last){
+            result++;
+            last = a[i].second;
         }
     }
-    return res;
+    cout << result << endl;
 }
+
 int main(){
-    ios_base::sync_with_stdio(0);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    cin >> n;
-    int x,y;
-    for (int i=0;i<n;i++){
-        cin >> x >> y;
-        segment[i].first = x;
-        segment[i].second = y;
-    }
-    sort(segment,segment+n,compare);
-    // for (int i=0;i<n;i++){
-    //     cout << segment[i].first << " " << segment[i].second << endl;
-    // }
-    int res = greedy();
-    cout << "so doan khong trung: " << res << endl;
-    
+    input();
+    solve();
     return 0;
 }

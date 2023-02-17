@@ -1,44 +1,53 @@
-#include <iostream>
-#include <iterator>
-#include <map>
- 
-#include <sstream>
-#include <string>
-#include <stdio.h>
+#include <bits/stdc++.h>
+
 using namespace std;
 
-int M[1000][20],a[1000],n,pairNum,xPair[1000],yPair[1000];
+int n;
+int M[30][1000000];
+int A[1000000];
 
-void process(){
-    for (int i=0;i<n;i++){
-        M[0][i] = a[i]; //cho cot dau tien la mang nhap vao
+void preprocessing(){
+    for(int j = 0; (1 << j) <= n; j++){
+        for(int i = 0; i < n; i++) M[j][i] = -1;
     }
-    for (int i=0;i<n;i++){
-        for (int j=0;j<n;j++){
-            if (M[j+1][i] < M[i][j+1]){
-                M[i][j] = M[j][i];
-            }
-            else{
-                M[i][j] = M[i][j-1];
+
+    for(int i = 0; i < n; i++) M[0][i] = i;
+    for(int j = 1; (1 << j) <= n; j++){
+        for(int i = 0; i + (1 << j) - 1 < n; i++){
+            if(A[M[j-1][i]] < A[M[j-1][i+(1 << (j-1))]]){
+                M[j][i] = M[j-1][i];
+            }else{
+                M[j][i] = M[j-1][i + (1 << (j-1))];
             }
         }
-
-    }
-    for (int i=0;i<n;i++){
-        for (int j=0;j<n;j++){
-            cout << M[i][j] << " ";
-        }
-        cout << endl;
     }
 }
-int main(){
-    ios_base::sync_with_stdio(0);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    cin >> n;
-    for (int i=0;i<n;i++){
-        cin >> a[i];
+
+int rmq(int i, int j){
+    int k = log2(j-i+1);
+    int p2k = (1 << k);//pow(2,k);
+    if(A[M[k][i]] <= A[M[k][j-p2k+1]]){
+        return M[k][i];
+    }else{
+        return M[k][j-p2k+1];
     }
-    process();
-    return 0;
+}
+
+
+int main(){
+   scanf("%d",&n);
+    for(int i = 0; i < n; i++){
+        scanf("%d",&A[i]);
+    }
+   preprocessing();
+
+   int ans = 0; int m;
+    scanf("%d",&m);
+    for(int i = 0; i < m; i++){
+        int I,J;
+        scanf("%d%d",&I,&J);
+        ans += A[rmq(I,J)];
+    }
+    cout << ans;
+   return 0;
 }

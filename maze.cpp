@@ -1,65 +1,53 @@
-#include <iostream>
-#include <iterator>
-#include <map>
- 
-#include <sstream>
-#include <string>
-#include <stdio.h>
-#include <queue>
+#include <bits/stdc++.h>
+
 using namespace std;
-typedef pair<int,int> ii;
-const int maxN = 100;
-int a[maxN][maxN], m,n,r,c,d[maxN][maxN];
-int dx[] = {1,0,-1,0};
-int dy[] = {0,1,0,-1};
-queue <ii> topQueue;
+
+typedef pair<int, int> ii;
+
+const int maxN = 999 + 100;
+const int oo = 1e9 + 7;
+
+int a[maxN][maxN], m, n, r, c, d[maxN][maxN];
+int dx[] = {1, 0, -1, 0}, 
+    dy[] = {0, 1, 0, -1};
+
+queue <ii> qe;
 
 int solve(){
-    r = r-1;
-    c= c-1;
-    topQueue.push(ii(r,c));
-    d[r][c]=0;
-    a[r][c]=1;
-    while (!topQueue.empty()){
-        ii tmp = topQueue.front();
-        topQueue.pop();
-        for (int i=0;i<4;i++){
-            int x = dx[i] + tmp.first;
-            int y = dy[i] + tmp.second;
-            if (x < 1|| x > m || y < 1 || y > n){
-                return d[tmp.first][tmp.second] + 1;
-            }
-            if (a[x][y] != 1){
-                d[x][y] = d[tmp.first][tmp.second]+1;
-                topQueue.push(ii(x,y));
-                a[x][y]= 1;
-            }
+    qe.push(ii(r,c));
+    d[r][c] = 0; //khoang cach toi (r,c)
+    a[r][c] = 1; // da tham
+    while(!qe.empty()){
+        ii u = qe.front();
+        qe.pop();
+        for (int i = 0; i < 4; i++)
+        {
+            /* code */
+            int x = dx[i] + u.first;
+            int y = dy[i] + u.second;
+            if(x < 1 || x > m || y < 1 || y > n)
+                return d[u.first][u.second] + 1;
+                if(a[x][y] != 1){
+                    d[x][y] = d[u.first][u.second] + 1;
+                    qe.push(ii(x, y));
+                    a[x][y] = 1;
+                }
         }
     }
     return -1;
 }
 
-void printMatrix(){
-    for (int i=1;i<=m;i++){
-        for (int j=1;j<=n;j++){
-            cout << d[i][j] << " ";
-        }
-        cout << endl;
-    }
-}
 int main(){
-    ios_base::sync_with_stdio(0);
-    cin.tie(NULL);
-    cout.tie(NULL);
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
     cin >> m >> n >> r >> c;
-    for (int i=1;i<=m;i++){
-        for (int j=1;j<n;j++){
-            cin >>a[i][j];
+    for(int i = 1; i <= m; i++){
+        for(int j = 1; j <= n; j++){
+            cin >> a[i][j];
         }
     }
-
-    int ans = solve();
-    cout << ans << endl;
-    printMatrix();
+    int result = solve();
+    cout << result;
     return 0;
 }
